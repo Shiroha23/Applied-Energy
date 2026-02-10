@@ -57,7 +57,17 @@ public class Appchg {
                 .title(Component.translatable("itemGroup.appchg"))
                 .displayItems((parameters, output) -> {
                 output.accept(ULTRA_DENSE_ENERGY_CELL_ITEM.get());
+                ItemStack ultraDenseFilled = new ItemStack(ULTRA_DENSE_ENERGY_CELL_ITEM.get());
+                var ultraDenseTag = ultraDenseFilled.getOrCreateTag();
+                ultraDenseTag.putDouble("internalCurrentPower", 1.28E7d);
+                ultraDenseTag.putDouble("internalMaxPower", 1.28E7d);
+                output.accept(ultraDenseFilled);
                 output.accept(ULTIMATE_ENERGY_CELL_ITEM.get());
+                ItemStack ultimateFilled = new ItemStack(ULTIMATE_ENERGY_CELL_ITEM.get());
+                var ultimateTag = ultimateFilled.getOrCreateTag();
+                ultimateTag.putDouble("internalCurrentPower", 1.024E8d);
+                ultimateTag.putDouble("internalMaxPower", 1.024E8d);
+                output.accept(ultimateFilled);
                 }).build());
 
     public static final RegistryObject<BlockEntityType<EnergyCellBlockEntity>> ENERGY_CELL_BLOCK_ENTITY = BLOCK_ENTITIES.register(
