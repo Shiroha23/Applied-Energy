@@ -70,15 +70,28 @@ public class Appchg {
                 output.accept(ultimateFilled);
                 }).build());
 
-    public static final RegistryObject<BlockEntityType<EnergyCellBlockEntity>> ENERGY_CELL_BLOCK_ENTITY = BLOCK_ENTITIES.register(
-            "energy_cell",
+    public static final RegistryObject<BlockEntityType<EnergyCellBlockEntity>> ULTRA_DENSE_ENERGY_CELL_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            "ultra_dense_energy_cell",
             () -> {
             AtomicReference<BlockEntityType<EnergyCellBlockEntity>> typeHolder = new AtomicReference<>();
             var supplier = (BlockEntityType.BlockEntitySupplier<EnergyCellBlockEntity>)
                 (pos, state) -> new EnergyCellBlockEntity(typeHolder.get(), pos, state);
             var type = BlockEntityType.Builder.of(
                 supplier,
-                ULTRA_DENSE_ENERGY_CELL.get(),
+                ULTRA_DENSE_ENERGY_CELL.get())
+                .build(null);
+            typeHolder.set(type);
+            return type;
+            });
+
+    public static final RegistryObject<BlockEntityType<EnergyCellBlockEntity>> ULTIMATE_ENERGY_CELL_BLOCK_ENTITY = BLOCK_ENTITIES.register(
+            "ultimate_energy_cell",
+            () -> {
+            AtomicReference<BlockEntityType<EnergyCellBlockEntity>> typeHolder = new AtomicReference<>();
+            var supplier = (BlockEntityType.BlockEntitySupplier<EnergyCellBlockEntity>)
+                (pos, state) -> new EnergyCellBlockEntity(typeHolder.get(), pos, state);
+            var type = BlockEntityType.Builder.of(
+                supplier,
                 ULTIMATE_ENERGY_CELL.get())
                 .build(null);
             typeHolder.set(type);
@@ -101,10 +114,12 @@ public class Appchg {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            var type = ENERGY_CELL_BLOCK_ENTITY.get();
-            ((EnergyCellBlock) ULTRA_DENSE_ENERGY_CELL.get()).setBlockEntity(EnergyCellBlockEntity.class, type, null, null);
-            ((EnergyCellBlock) ULTIMATE_ENERGY_CELL.get()).setBlockEntity(EnergyCellBlockEntity.class, type, null, null);
-            AEBaseBlockEntity.registerBlockEntityItem(type, ULTRA_DENSE_ENERGY_CELL_ITEM.get());
+            var ultraDenseType = ULTRA_DENSE_ENERGY_CELL_BLOCK_ENTITY.get();
+            var ultimateType = ULTIMATE_ENERGY_CELL_BLOCK_ENTITY.get();
+            ((EnergyCellBlock) ULTRA_DENSE_ENERGY_CELL.get()).setBlockEntity(EnergyCellBlockEntity.class, ultraDenseType, null, null);
+            ((EnergyCellBlock) ULTIMATE_ENERGY_CELL.get()).setBlockEntity(EnergyCellBlockEntity.class, ultimateType, null, null);
+            AEBaseBlockEntity.registerBlockEntityItem(ultraDenseType, ULTRA_DENSE_ENERGY_CELL_ITEM.get());
+            AEBaseBlockEntity.registerBlockEntityItem(ultimateType, ULTIMATE_ENERGY_CELL_ITEM.get());
         });
     }
 
